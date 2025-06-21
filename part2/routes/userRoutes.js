@@ -82,5 +82,15 @@ router.get('/my-dogs', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to logout' });
+    }
+    res.clearCookie('connect.sid'); // optional, removes cookie
+    res.json({ message: 'Logged out' });
+  });
+});
+
 
 module.exports = router;
