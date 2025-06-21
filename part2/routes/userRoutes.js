@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 
     res.json({ role: user.role });
   } catch (err) {
-    console.error('❌ Login failed:', err);
+    console.error('Login failed:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
