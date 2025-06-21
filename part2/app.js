@@ -3,9 +3,7 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const express = require('express');
 const session = require('express-session');
-const app = express();
 
 app.use(express.json()); // for parsing JSON bodies
 app.use(session({
