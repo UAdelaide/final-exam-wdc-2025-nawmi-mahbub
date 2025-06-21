@@ -78,7 +78,7 @@ router.get('/my-dogs', async (req, res) => {
     );
     res.json(rows);
   } catch (err) {
-    console.error('❌ Fetch dogs error:', err);
+    console.error(' Fetch dogs error:', err);
     res.status(500).json({ error: 'Server error' });
   }
 });
