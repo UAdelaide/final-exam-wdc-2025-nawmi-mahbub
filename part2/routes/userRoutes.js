@@ -11,8 +11,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 });
-
-// POST a new user 
+// POST a new user
 router.post('/register', async (req, res) => {
   const { username, email, password, role } = req.body;
 
