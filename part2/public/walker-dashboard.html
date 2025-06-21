@@ -44,11 +44,11 @@
         const message = ref('');
         const error = ref('');
         const user = await getCurrentUser();
-if (!user || user.role !== 'walker') {
-  error.value = 'Only walkers can apply';
-  return;
-}
-const walker_id = user.id;
+            if (!user || user.role !== 'walker') {
+              error.value = 'Only walkers can apply';
+              return;
+            }
+            const walker_id = user.id;
 
 
         async function loadWalkRequests() {
