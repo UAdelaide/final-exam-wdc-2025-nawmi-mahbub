@@ -1,28 +1,27 @@
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
-require('dotenv').config();
+const userRoutes = require('./routes/userroutes');
 
 const app = express();
-const session = require('express-session');
-
-app.use(express.json()); // for parsing JSON bodies
-app.use(session({
-  secret: 'your_secret_key',
-  resave: false,
-  saveUninitialized: true
-}));
-
+const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.json()); // ✅ Important: allows POST body parsing
+
+app.use(session({
+  secret: 'mySecretKey', // use a strong secret in production
+  resave: false,
+  saveUninitialized: false
+}));
+
+// Serve static files (like index.html)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-const walkRoutes = require('./routes/walkRoutes');
-const userRoutes = require('./routes/userRoutes');
+app.use('/api', userRoutes); // ✅ must be mounted under /api
 
-app.use('/api/walks', walkRoutes);
-app.use('/api/users', userRoutes);
-
-// Export the app instead of listening here
-module.exports = app;
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
