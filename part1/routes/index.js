@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../db'); // Assuming you have a db.js file for database connection
+var db = require('./models/db'); // Assuming you have a db.js file for database connection
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
