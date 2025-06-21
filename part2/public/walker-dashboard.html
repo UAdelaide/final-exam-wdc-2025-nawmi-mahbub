@@ -54,6 +54,18 @@
             error.value = err.message;
           }
         }
+        async function getCurrentUser() {
+  try {
+    const res = await fetch('/api/users/me');
+    if (!res.ok) throw new Error('Not logged in');
+    const data = await res.json();
+    return data; // contains id, username, role
+  } catch (err) {
+    console.error('❌ Failed to fetch current user:', err);
+    error.value = 'Please log in to apply for walks';
+    return null;
+  }
+}
 
         async function applyToWalk(requestId) {
           try {
