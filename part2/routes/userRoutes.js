@@ -64,4 +64,23 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+// GET /api/my-dogs  – returns [{ dog_id, name }]
+router.get('/my-dogs', async (req, res) => {
+  if (!req.session.user || req.session.user.role !== 'owner') {
+    return res.status(401).json({ error: 'Not authorised' });
+  }
+
+  try {
+    const ownerId = req.session.user.id;
+    const [rows] = await db.execute(
+      'SELECT dog_id, name FROM Dogs WHERE owner_id = ?',
+      [ownerId]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('❌ Fetch dogs error:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 module.exports = router;
