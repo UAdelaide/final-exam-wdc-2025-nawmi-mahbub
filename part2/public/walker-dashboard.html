@@ -73,24 +73,36 @@
             }
           }
 
-        async function applyToWalk(requestId) {
-          try {
-            const res = await fetch(`/api/walks/${requestId}/apply`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ walker_id: user })
-            });
-            const result = await res.json();
+        async function applyToWalk(request_id) {
+  try {
+    const user = await getCurrentUser();
+    if (!user || user.role !== 'walker') {
+      error.value = 'Only walkers can apply';
+      return;
+    }
 
-            if (!res.ok) throw new Error(result.error || 'Application failed');
-            message.value = result.message;
-            error.value = '';
-            await loadWalkRequests();
-          } catch (err) {
-            error.value = err.message;
-            message.value = '';
-          }
-        }
+    const walker_id = user.id;
+
+    const res = await fetch('/api/walk-applications', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ request_id, walker_id })
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) throw new Error(result.error || 'Failed to apply');
+
+    message.value = result.message;
+    error.value = '';
+    loadWalks(); // refresh walk list
+  } catch (err) {
+    console.error('❌ Failed to apply:', err);
+    error.value = err.message;
+    message.value = '';
+  }
+}
+
 
         onMounted(() => {
           loadWalkRequests();
