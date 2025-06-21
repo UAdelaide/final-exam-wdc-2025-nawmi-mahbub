@@ -23,5 +23,5 @@ app.use('/api', userRoutes); // ✅ must be mounted under /api
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(` Server running at http://localhost:${PORT}`);
 });
